@@ -1,14 +1,15 @@
-/*Servidor que implementa uma REST API basica*/
+/*Servidor utilizando Express.js que implementa uma REST API basica*/
 
-const http = require('http');
+const express = require('express');
+const app = express();
 
-const server = http.createServer((req, res) => {
-	if(req.url === '/'){
-		res.write('Welcome to our homepage!');
-		res.end();
-	}
+app.get('/', (req, res) => {
+	res.send('Welcome to our homepage!');
 });
 
-server.listen(3000);
+app.get('/api/users', (req, res) => {
+	res.send(['John', 'Mary', 'Bill']);
+});
 
-console.log('Listening on port 3000...');
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log('Listening on port ' + port + '...'));

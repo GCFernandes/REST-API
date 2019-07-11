@@ -1,0 +1,21 @@
+{
+  "name": "REST-API",
+  "version": "1.0.0",
+  "description": "Operações básicas de uma REST API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GCFernandes/REST-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GCFernandes/REST-API/issues"
+  },
+  "homepage": "https://github.com/GCFernandes/REST-API#readme"
+}
