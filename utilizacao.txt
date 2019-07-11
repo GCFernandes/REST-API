@@ -1,0 +1,44 @@
+Para utilizar a API deve-se iniciar o servidor, utilizando o comando:
+
+$node server.js
+ou
+$nodemon server.js
+
+Por padrão o servidor fica disponivel na porta 3000
+
+As rotas disponíveis são:
+
+Pagina principal:
+	localhost:3000/
+
+Recuperar todos os usuarios:
+	request: GET
+	localhost:3000/api/users
+
+Recuperar um usuário específico:
+	request: GET
+	localhost:3000/api/users/id
+
+Criar um usuário:
+	request: POST
+	localhost:3000/api/users
+	corpo da requisição:
+		{
+			"name" : "nome_do_usuario"
+		}
+
+Atualizar um usuário:
+	request: PUT
+	localhost:3000/api/users/id
+	corpo da requisição:
+		{
+			"name" : "nome_do_usuario"
+		}
+
+Remover um usuário:
+	request: DELETE
+	localhost:3000/api/users/id
+
+Remover todos os usuários:
+	request: DELETE
+	localhost:3000/api/users/
