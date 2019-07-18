@@ -13,12 +13,13 @@ router.post('/api/users', async (req, res) => {
 
 	let s, pass;
 
+    console.log(req.body);
 
 	try {s = await bcrypt.salt();}
 	catch{"Salt invalido"}
 	
 	try{pass = await bcrypt.encrypt(req.body.password, s);}
-	catch{"Não foi prossivel fazer a criptografia"}
+	catch{"Não foi possivel fazer a criptografia"}
 
 	let user = {
 		_id: 0,
@@ -47,7 +48,7 @@ router.delete('/api/users', async (req, res) => {
 
 
 });
-
+//Recuperar todos os usuarios
 router.get('/api/users', async (req, res) => {
 
 	try{
