@@ -1,7 +1,12 @@
 /*Servidor utilizando Express.js que implementa uma REST API basica*/
 
+const mongo = require('./utils/mongo');
+
 const express = require('express');
 const app = express();
+let idCount = 0;
+
+mongo.intialize();
 
 app.use(express.json());
 
@@ -23,21 +28,23 @@ app.get('/', (req, res) => {
 });
 
 //Rota para recuperar todos os usuarios
-app.get('/api/users', (req, res) => {
+app.get('/api/users', async (req, res) => {
+	
+	let users = await mongo.getUsers()
+	
 	res.send(users);
 });
 
 //Rota pra recuperar um usuario especifico
-app.get('/api/users/:id', (req, res) => {
-	const user = users.find(c => c.id === parseInt(req.params.id));
-	if (!user)
-		//404 Content not found
-		return res.status(404).send('User not found');
+app.get('/api/users/:id', async(req, res) => {
+
+	user = await mongo.getUser(req.params.id);
 	
 	res.send(user);
 });
 
 //Rota para criar um usuario
+
 app.post('/api/users', (req, res) => {
 	if(!req.body.name) 
 		// 400 Bad Request
@@ -47,48 +54,40 @@ app.post('/api/users', (req, res) => {
 		return res.status(400).send("Name should be at least 3 characters long")
 	
 	const user = {
-		id: users.length,
+		_id: idCount++,
 		name: req.body.name
 	};
-	users.push(user);
+	mongo.insertUser(user);
 	res.send(user);
 });
 
 //Rota para atualizar um usuario
-app.put('/api/users/:id', (req, res) => {
+app.put('/api/users/:id', async (req, res) => {
 	
-	const user = users.find(c => c.id === parseInt(req.params.id));
-	if (!user)
-		return res.status(404).send('User not found');
-	
-	if(!req.body.name) 
-		return res.status(400).send('No name provided')
+	const obj = {
+		_id : parseInt(req.params.id),
+		name : req.body.name,
+	}
 
-	if(req.body.name.length < 3)
-		return res.status(400).send("Name should be at least 3 characters long")
-	
-	user.name = req.body.name;
+	user = await mongo.updateUser(req.params.id, obj);
 	res.send(user);
 });
 
 //Rota para deletar um usuario
-app.delete('/api/users/:id', (req, res) => {
+app.delete('/api/users/:id', async (req, res) => {
 	
-	const user = users.find(c => c.id === parseInt(req.params.id));
-	if (!user)
-		return res.status(404).send('User not found');
-	
-	users.splice(users.indexOf(user), 1);
+	user = await mongo.deleteUser(req.params.id);
 	res.send(user);
 	
 
 });
 
 //Rota para deletar todos os usuarios
-app.delete('/api/users', (req, res) => {
+app.delete('/api/users', async (req, res) => {
+	
+	let users = await mongo.deleteUsers();
 	
 	res.send(users);
-	users.splice(0, users.length);
 });
 
 //Definindo a porta e abrindo o servidor
